@@ -20,11 +20,47 @@ const Footer = () => {
             Your vision, our expertise.
           </p>
           <div className="social-icons">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer"><FaFacebookF /></a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer"><FaInstagram /></a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer"><FaLinkedin /></a>
-            <a href="https://wa.me/1234567890" target="_blank" rel="noreferrer"><FaWhatsapp /></a>
-          </div>
+  {/* Facebook */}
+  <a
+    href="https://www.facebook.com/share/19SF32cFPT/"
+    target="_blank"
+    rel="noreferrer"
+    aria-label="Facebook"
+  >
+    <FaFacebookF />
+  </a>
+
+  {/* Instagram */}
+  <a
+    href="https://www.instagram.com/zero7technologies?igsh=cmt1amJvaG40Ym8z"
+    target="_blank"
+    rel="noreferrer"
+    aria-label="Instagram"
+  >
+    <FaInstagram />
+  </a>
+
+  {/* LinkedIn */}
+  <a
+    href="https://www.linkedin.com/company/zero7technologies/"
+    target="_blank"
+    rel="noreferrer"
+    aria-label="LinkedIn"
+  >
+    <FaLinkedin />
+  </a>
+
+  {/* WhatsApp */}
+  <a
+    href="https://wa.me/918919801095"
+    target="_blank"
+    rel="noreferrer"
+    aria-label="WhatsApp"
+  >
+    <FaWhatsapp />
+  </a>
+</div>
+
           </div>
         </div>
 

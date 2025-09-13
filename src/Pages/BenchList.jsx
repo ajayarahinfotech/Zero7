@@ -7,11 +7,72 @@ const BenchList = () => {
   const [openFAQ, setOpenFAQ] = useState(null);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
 
+  // 👇 Enrollment form state
+  const [formData, setFormData] = useState({
+    name: "",
+    contact: "",
+    email: "",
+    location: "",
+    resume: null,
+  });
+
+  // Enrollment form handlers
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "resume") {
+      setFormData({ ...formData, resume: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // You can replace this with actual API call
+    console.log("Enrollment form submitted:", formData);
+    alert("Enrollment form submitted ✅");
+    // reset
+    setFormData({
+      name: "",
+      contact: "",
+      email: "",
+      location: "",
+      resume: null,
+    });
+  };
+
   // Sample candidate data
   const candidates = [
-    { id: 1, name: "Rahul Sharma With A Very Long Name Example For Tooltip", role: "Java Developer", exp: "2 Years", location: "Hyderabad", email: "rahul@example.com", phone: "+91 9876543210" },
-    { id: 2, name: "Sneha Reddy", role: "React Developer With Long Role Name Tooltip Test", exp: "1.5 Years", location: "Bangalore", email: "sneha@example.com", phone: "+91 9876509876" },
-    { id: 3, name: "Amit Verma", role: "Data Analyst", exp: "2 Years", location: "Pune", email: "amit@example.com", phone: "+91 9845123456" },
+    {
+      id: 1,
+      name: "Rahul Sharma With A Very Long Name Example For Tooltip",
+      role: "Java Developer",
+      skills: "Java, Spring Boot, REST APIs",
+      exp: "2 Years",
+      location: "Hyderabad",
+      email: "rahul@example.com",
+      phone: "+91 9876543210",
+    },
+    {
+      id: 2,
+      name: "Sneha Reddy",
+      role: "React Developer With Long Role Name Tooltip Test",
+      skills: "React, Redux, JavaScript, HTML, CSS",
+      exp: "1.5 Years",
+      location: "Bangalore",
+      email: "sneha@example.com",
+      phone: "+91 9876509876",
+    },
+    {
+      id: 3,
+      name: "Amit Verma",
+      role: "Data Analyst",
+      skills: "SQL, Python, Excel, Power BI",
+      exp: "2 Years",
+      location: "Pune",
+      email: "amit@example.com",
+      phone: "+91 9845123456",
+    },
   ];
 
   // Sample testimonials
@@ -35,15 +96,29 @@ const BenchList = () => {
 
   // FAQs
   const faqs = [
-    { q: "What is Bench Marketing?", a: "Bench marketing helps candidates on the bench find suitable projects quickly by connecting them with clients." },
-    { q: "How does Resume Marketing work?", a: "We promote your profile to employers, schedule interviews, and guide you through placements." },
-    { q: "Is there any fee involved?", a: "Yes, minimal charges apply for professional services. Contact us for details." },
-    { q: "How long does it take to get placed?", a: "On average, candidates get interview calls within 1-3 weeks depending on demand." },
+    {
+      q: "What is Bench Marketing?",
+      a: "Bench marketing helps candidates on the bench find suitable projects quickly by connecting them with clients.",
+    },
+    {
+      q: "How does Resume Marketing work?",
+      a: "We promote your profile to employers, schedule interviews, and guide you through placements.",
+    },
+    {
+      q: "Is there any fee involved?",
+      a: "Yes, minimal charges apply for professional services. Contact us for details.",
+    },
+    {
+      q: "How long does it take to get placed?",
+      a: "On average, candidates get interview calls within 1-3 weeks depending on demand.",
+    },
   ];
 
   // Animate stats
   useEffect(() => {
-    let c = 0, cl = 0, p = 0;
+    let c = 0,
+      cl = 0,
+      p = 0;
     const interval = setInterval(() => {
       if (c < 250) c++;
       if (cl < 120) cl++;
@@ -58,31 +133,94 @@ const BenchList = () => {
     <div className="bench-page">
       {/* Hero Section */}
       <section className="hero-section">
-  <div className="overlay">
-    <h1>Zero7 Bench List</h1>
-    <p>Connecting skilled professionals with top MNCs – explore our available talent today!</p>
-    <button className="btn-gradient" onClick={() => setShowForm(true)}>
-      Register Now
-    </button>
-  </div>
-</section>
-      {/* Registration */}
-      <section className="registration-section">
-        <h2>Resume Marketing Registration</h2>
-        <p>
-          Join our <strong>Bench Program</strong> to get placed faster! Our management will inform you
-          about the fees for resume marketing. Fill the form below to connect with us directly.
-        </p>
-        <button className="btn-gradient" onClick={() => setShowForm(true)}>
-          Connect with Management
-        </button>
+        <img src="/bench-banner.jpg" alt="Bench List Banner" className="hero-image" />
+        <div className="overlay">
+          <h1>Zero7 Bench List</h1>
+          <p>
+            Connecting skilled professionals with top MNCs – explore our available talent today!
+          </p>
+        </div>
       </section>
+
+      {/* Candidate Enrollment Form */}
+<section className="form-section">
+  <h2>Candidate Enrollment Form</h2>
+  <form onSubmit={handleSubmit} className="enrollment-form">
+    <div className="input-group">
+      <i className="fa fa-user"></i>
+      <input
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        value={formData.name}
+        onChange={handleChange}
+        required
+      />
+    </div>
+    <div className="input-group">
+      <i className="fa fa-phone"></i>
+      <input
+        type="tel"
+        name="contact"
+        placeholder="Contact Number"
+        value={formData.contact}
+        onChange={handleChange}
+        required
+      />
+    </div>
+    <div className="input-group">
+      <i className="fa fa-envelope"></i>
+      <input
+        type="email"
+        name="email"
+        placeholder="Email Address"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
+    </div>
+    <div className="input-group">
+      <i className="fa fa-map-marker"></i>
+      <input
+        type="text"
+        name="location"
+        placeholder="Your Location"
+        value={formData.location}
+        onChange={handleChange}
+        required
+      />
+    </div>
+    <div className="input-group file-input">
+      <i className="fa fa-file"></i>
+      <input
+        type="file"
+        name="resume"
+        accept=".pdf,.doc,.docx"
+        onChange={handleChange}
+        required
+      />
+    </div>
+    <button type="submit" className="primary-submit">
+      Submit
+    </button>
+  </form>
+</section>
+
 
       {/* Stats */}
       <section className="stats-section">
-        <div className="stat-card"><h2>{stats.candidates}+</h2><p>Candidates Available</p></div>
-        <div className="stat-card"><h2>{stats.clients}+</h2><p>Clients Served</p></div>
-        <div className="stat-card"><h2>{stats.placements}+</h2><p>Placements Done</p></div>
+        <div className="stat-card">
+          <h2>{stats.candidates}+</h2>
+          <p>Candidates Available</p>
+        </div>
+        <div className="stat-card">
+          <h2>{stats.clients}+</h2>
+          <p>Clients Served</p>
+        </div>
+        <div className="stat-card">
+          <h2>{stats.placements}+</h2>
+          <p>Placements Done</p>
+        </div>
       </section>
 
       {/* Candidate List */}
@@ -94,6 +232,7 @@ const BenchList = () => {
               <tr>
                 <th>Name</th>
                 <th>Role</th>
+                <th>Skills</th>
                 <th>Experience</th>
                 <th>Location</th>
                 <th>Action</th>
@@ -104,11 +243,15 @@ const BenchList = () => {
                 <tr key={c.id}>
                   <td title={c.name}>{c.name}</td>
                   <td title={c.role}>{c.role}</td>
+                  <td title={c.skills}>{c.skills}</td>
                   <td title={c.exp}>{c.exp}</td>
                   <td title={c.location}>{c.location}</td>
                   <td>
-                    <button className="btn-gradient" onClick={() => setSelectedCandidate(c)}>
-                      Get Details
+                    <button
+                      className="btn-gradient"
+                      onClick={() => setSelectedCandidate(c)}
+                    >
+                      Request Info
                     </button>
                   </td>
                 </tr>
@@ -117,20 +260,97 @@ const BenchList = () => {
           </table>
         </div>
 
-        {/* Candidate details popup */}
+        {/* Popup form for requesting candidate info */}
         {selectedCandidate && (
           <div className="popup-form-overlay">
             <div className="popup-form">
-              <h2>Candidate Details</h2>
-              <p><strong>Name:</strong> {selectedCandidate.name}</p>
-              <p><strong>Role:</strong> {selectedCandidate.role}</p>
-              <p><strong>Experience:</strong> {selectedCandidate.exp}</p>
-              <p><strong>Location:</strong> {selectedCandidate.location}</p>
-              <p><strong>Email:</strong> <a href={`mailto:${selectedCandidate.email}`}>{selectedCandidate.email}</a></p>
-              <p><strong>Phone:</strong> <a href={`tel:${selectedCandidate.phone}`}>{selectedCandidate.phone}</a></p>
-              <div className="form-actions">
-                <button className="btn-gradient" onClick={() => setSelectedCandidate(null)}>Close</button>
-              </div>
+              <h2>Request Candidate Info</h2>
+              <p>
+                Please provide your company details to request info for:{" "}
+                <strong>{selectedCandidate.name}</strong>
+              </p>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  alert("Request submitted ✅");
+                  setSelectedCandidate(null);
+                }}
+              >
+                <div className="form-group">
+                  <i className="fa fa-building"></i>
+                  <input type="text" name="companyName" placeholder="Company Name" required />
+                </div>
+
+                <div className="form-group">
+                  <i className="fa fa-globe"></i>
+                  <input
+                    type="url"
+                    name="website"
+                    placeholder="Website / LinkedIn Profile (optional)"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <i className="fa fa-user"></i>
+                  <input type="text" name="contactPerson" placeholder="Contact Person Name" required />
+                </div>
+
+                <div className="form-group">
+                  <i className="fa fa-id-badge"></i>
+                  <input type="text" name="designation" placeholder="Designation / Role" required />
+                </div>
+
+                <div className="form-group">
+                  <i className="fa fa-envelope"></i>
+                  <input type="email" name="email" placeholder="Official Email ID" required />
+                </div>
+
+                <div className="form-group">
+                  <i className="fa fa-phone"></i>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Phone Number (with WhatsApp)"
+                    required
+                  />
+                </div>
+
+                <textarea
+                  name="requirementDetails"
+                  placeholder="Requirement Details: Skills, Job Location, Mode, Expected Start Date"
+                  rows="3"
+                ></textarea>
+
+                <div className="form-row">
+                  <input type="number" name="positions" placeholder="Number of Positions" />
+                  <input type="text" name="budget" placeholder="Budget / CTC Range (optional)" />
+                </div>
+
+                <textarea
+                  name="comments"
+                  placeholder="Additional Notes / Comments (optional)"
+                  rows="2"
+                ></textarea>
+
+                <label className="checkbox">
+                  <input type="checkbox" required />{" "}
+                  I confirm that the above details are correct and request candidate information
+                  only for genuine hiring purposes.
+                </label>
+
+                <div className="form-actions">
+                  <button type="submit" className="btn-gradient">
+                    Submit Request
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-cancel"
+                    onClick={() => setSelectedCandidate(null)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}
@@ -147,7 +367,9 @@ const BenchList = () => {
                 <h3>Faster Hiring</h3>
               </div>
               <div className="flip-card-back">
-                <p>Our candidates are pre-screened, ensuring clients save time in recruitment.</p>
+                <p>
+                  Our candidates are pre-screened, ensuring clients save time in recruitment.
+                </p>
               </div>
             </div>
           </div>
@@ -158,7 +380,9 @@ const BenchList = () => {
                 <h3>Trusted Network</h3>
               </div>
               <div className="flip-card-back">
-                <p>Strong tie-ups with MNCs and startups to connect talent with opportunity.</p>
+                <p>
+                  Strong tie-ups with MNCs and startups to connect talent with opportunity.
+                </p>
               </div>
             </div>
           </div>
@@ -180,10 +404,22 @@ const BenchList = () => {
       <section className="process-section">
         <h2>How Our Bench Process Works</h2>
         <div className="process-steps">
-          <div className="process-card"><h3>Step 1</h3><p>Candidate registers with Zero7 Bench Program.</p></div>
-          <div className="process-card"><h3>Step 2</h3><p>Our team markets resumes to potential clients.</p></div>
-          <div className="process-card"><h3>Step 3</h3><p>Interviews scheduled with top companies.</p></div>
-          <div className="process-card"><h3>Step 4</h3><p>Candidate gets placed with full support from our team.</p></div>
+          <div className="process-card">
+            <h3>Step 1</h3>
+            <p>Candidate registers with Zero7 Bench Program.</p>
+          </div>
+          <div className="process-card">
+            <h3>Step 2</h3>
+            <p>Our team markets resumes to potential clients.</p>
+          </div>
+          <div className="process-card">
+            <h3>Step 3</h3>
+            <p>Interviews scheduled with top companies.</p>
+          </div>
+          <div className="process-card">
+            <h3>Step 4</h3>
+            <p>Candidate gets placed with full support from our team.</p>
+          </div>
         </div>
       </section>
 
@@ -206,15 +442,20 @@ const BenchList = () => {
         <h2>Frequently Asked Questions</h2>
         {faqs.map((f, i) => (
           <div className={`faq-item ${openFAQ === i ? "open" : ""}`} key={i}>
-            <button className="faq-question" onClick={() => setOpenFAQ(openFAQ === i ? null : i)}>
+            <button
+              className="faq-question"
+              onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
+            >
               {f.q} <span>{openFAQ === i ? "−" : "+"}</span>
             </button>
-            <div className="faq-answer"><p>{f.a}</p></div>
+            <div className="faq-answer">
+              <p>{f.a}</p>
+            </div>
           </div>
         ))}
       </section>
 
-      {/* Popup Registration Form */}
+      {/* Popup Registration Form for management */}
       {showForm && (
         <div className="popup-form-overlay">
           <div className="popup-form">
@@ -225,8 +466,16 @@ const BenchList = () => {
               <input type="tel" placeholder="Your Contact Number" required />
               <textarea placeholder="Your Query / Purpose" required></textarea>
               <div className="form-actions">
-                <button type="submit" className="btn-gradient">Submit</button>
-                <button type="button" onClick={() => setShowForm(false)} className="btn-secondary">Cancel</button>
+                <button type="submit" className="btn-gradient">
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowForm(false)}
+                  className="btn-secondary"
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>

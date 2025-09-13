@@ -7,18 +7,18 @@ const NewBatches = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const coursesData = [
-    { name: "UIUX Designing", date: "20 - August - 2025", timings: "04:00 PM - 05:00 PM", duration: "4 Months", trainer: "Mr. Sakthvel" },
-    { name: "Python with Django", date: "20 - August - 2025", timings: "05:00 PM - 06:00 PM", duration: "3 Months", trainer: "Mr. Sudheer" },
-    { name: "React JS", date: "21 - August - 2025", timings: "11:00 AM - 12:00 PM", duration: "1 Months", trainer: "Mr. Bhargav" },
-    { name: "Node JS", date: "18 - August - 2025", timings: "04:00 PM - 05:00 PM", duration: "1 Months", trainer: "Mr. Jaya chandra reddy" },
-    { name: "Web Designing", date: "20 - August - 2025", timings: "05:00 PM - 06:00 PM", duration: "2 Months", trainer: "Mr. Bhargav" },
-    { name: "SEO", date: "20 - August - 2025", timings: "05:00 PM - 06:00 PM", duration: "2 Months", trainer: "M.S.R" },
-    { name: "PHP with MySQL", date: "20 - August - 2025", timings: "05:00 PM - 06:00 PM", duration: "3 Months", trainer: "Mr. Bhargav" },
-    { name: "Google Adwords", date: "20 - August - 2025", timings: "05:00 PM - 06:00 PM", duration: "1 Months", trainer: "M.S.R" },
-    { name: "Python Full Stack Development", date: "11 - August - 2025", timings: "11:00 AM - 12:00 PM", duration: "5 Months", trainer: "Mr. Sudheer" },
-    { name: "Full Stack Development", date: "11 - August - 2025", timings: "04:00 PM - 05:00 PM", duration: "5 Months", trainer: "Mr. Bhargav" },
-    { name: "Python with Django", date: "11 - August - 2025", timings: "11:00 AM - 12:00 PM", duration: "3 Months", trainer: "Mr. Sudheer" },
-    { name: "UI Development", date: "11 - August - 2025", timings: "04:00 PM - 05:00 PM", duration: "3 Months", trainer: "Mr. Bhargav" }
+    { name: "UIUX Designing", date: "20 - August - 2025", timings: "04:00 PM - 05:00 PM", duration: "4 Months" },
+    { name: "Python with Django", date: "20 - August - 2025", timings: "05:00 PM - 06:00 PM", duration: "3 Months" },
+    { name: "React JS", date: "21 - August - 2025", timings: "11:00 AM - 12:00 PM", duration: "1 Months" },
+    { name: "Node JS", date: "18 - August - 2025", timings: "04:00 PM - 05:00 PM", duration: "1 Months" },
+    { name: "Web Designing", date: "20 - August - 2025", timings: "05:00 PM - 06:00 PM", duration: "2 Months" },
+    { name: "SEO", date: "20 - August - 2025", timings: "05:00 PM - 06:00 PM", duration: "2 Months" },
+    { name: "PHP with MySQL", date: "20 - August - 2025", timings: "05:00 PM - 06:00 PM", duration: "3 Months" },
+    { name: "Google Adwords", date: "20 - August - 2025", timings: "05:00 PM - 06:00 PM", duration: "1 Months" },
+    { name: "Python Full Stack Development", date: "11 - August - 2025", timings: "11:00 AM - 12:00 PM", duration: "5 Months" },
+    { name: "Full Stack Development", date: "11 - August - 2025", timings: "04:00 PM - 05:00 PM", duration: "5 Months" },
+    { name: "Python with Django", date: "11 - August - 2025", timings: "11:00 AM - 12:00 PM", duration: "3 Months" },
+    { name: "UI Development", date: "11 - August - 2025", timings: "04:00 PM - 05:00 PM", duration: "3 Months" }
   ];
 
   const courses = coursesData.map(course => course.name);
@@ -29,8 +29,7 @@ const NewBatches = () => {
       course.name.toLowerCase().includes(searchLower) ||
       course.date.toLowerCase().includes(searchLower) ||
       course.timings.toLowerCase().includes(searchLower) ||
-      course.duration.toLowerCase().includes(searchLower) ||
-      course.trainer.toLowerCase().includes(searchLower)
+      course.duration.toLowerCase().includes(searchLower)
     );
   });
 
@@ -58,6 +57,7 @@ const NewBatches = () => {
       phone: '',
       selectedCourse: initialCourse || '',
       programType: '',
+      otherProgram: '',
       message: ''
     });
 
@@ -67,10 +67,10 @@ const NewBatches = () => {
 
     const handleInputChange = (e) => {
       const { name, value } = e.target;
-      setFormData({
-        ...formData,
+      setFormData((prev) => ({
+        ...prev,
         [name]: value
-      });
+      }));
     };
 
     const handleSubmit = async (e) => {
@@ -81,17 +81,17 @@ const NewBatches = () => {
         return;
       }
 
+      // build payload
+      const selectedCourseObj = coursesData.find(c => c.name === formData.selectedCourse);
+
+      const payload = {
+        ...formData,
+        date: selectedCourseObj?.date || "",
+        timings: selectedCourseObj?.timings || "",
+        duration: selectedCourseObj?.duration || ""
+      };
+
       try {
-        const selectedCourseObj = coursesData.find(c => c.name === formData.selectedCourse);
-
-        const payload = {
-          ...formData,
-          trainer: selectedCourseObj?.trainer || "",
-          date: selectedCourseObj?.date || "",
-          timings: selectedCourseObj?.timings || "",
-          duration: selectedCourseObj?.duration || ""
-        };
-
         const response = await fetch("https://script.google.com/macros/s/AKfycbzXzDo0cVEMDIXaU3j-fxrW5Fqi7LggylggenCQHltP300R2PgK6H11YAdeYnpVfhVb/exec", {
           method: "POST",
           body: JSON.stringify(payload),
@@ -198,7 +198,24 @@ const NewBatches = () => {
                       <option value="Internship">Internship</option>
                       <option value="Resume Marketing">Resume Marketing</option>
                       <option value="All of the above">All of the above</option>
+                      <option value="Others">Others</option>
                     </select>
+                  </div>
+                )}
+
+                {/* Only show if Others selected */}
+                {formData.programType === 'Others' && (
+                  <div className="form-group">
+                    <label htmlFor="otherProgram">Please specify *</label>
+                    <input
+                      type="text"
+                      id="otherProgram"
+                      name="otherProgram"
+                      value={formData.otherProgram}
+                      onChange={handleInputChange}
+                      placeholder="Enter your program type"
+                      required
+                    />
                   </div>
                 )}
 
@@ -233,7 +250,7 @@ const NewBatches = () => {
           <div className="search-box">
             <input
               type="text"
-              placeholder="Search courses by name, date, timings, duration or trainer..."
+              placeholder="Search courses by name, date, timings or duration..."
               value={searchTerm}
               onChange={handleSearchChange}
               className="search-input"
@@ -257,7 +274,6 @@ const NewBatches = () => {
                 <th>Date</th>
                 <th>Timings</th>
                 <th>Duration</th>
-                <th>Trainer</th>
                 <th>Register for Demo</th>
               </tr>
             </thead>
@@ -269,7 +285,6 @@ const NewBatches = () => {
                     <td>{course.date}</td>
                     <td>{course.timings}</td>
                     <td>{course.duration}</td>
-                    <td>{course.trainer}</td>
                     <td>
                       <button
                         className="register-btn"
@@ -282,7 +297,7 @@ const NewBatches = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="no-results">
+                  <td colSpan="5" className="no-results">
                     No courses found matching your search. Try different keywords.
                   </td>
                 </tr>
